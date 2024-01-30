@@ -1,25 +1,25 @@
-## RESOLUÇÃO
+# RESOLUÇÃO
 
-# Parte 1
+### Parte 1
 Correção do Comportamento Aleatório: O Parte1Controller foi desenvolvido para gerar uma API que retorna um número aleatório a cada chamada. No entanto, identificou-se que o código inicial gerava sempre o mesmo valor, devido à reinicialização da semente a cada chamada. A solução implementada consistiu em criar uma instância única de Random durante a inicialização do serviço RandomService, utilizando uma semente única baseada no hash de uma nova instância de Guid. Isso garante a geração de números aleatórios diferentes em cada chamada subsequente.
 
-# Parte 2
+### Parte 2
 Correção do Bug de Paginação e Melhorias na Estrutura: O Parte2Controller, responsável por retornar produtos paginados, apresentava um bug na lógica de paginação. A correção envolveu ajustes no método ListProducts para garantir que os resultados retornassem corretamente com base no número da página. Além disso, foram realizadas melhorias na estrutura, adotando a injeção de dependência e refatorando as classes CustomerList e ProductList para herdar de uma classe base PagedList<T>. A classe ProductService foi ajustada para herdar de uma classe base ListService<T>, eliminando repetições de código e seguindo boas práticas
 
-# Parte 3
+### Parte 3
 Refatoração para Estratégias de Pagamento: O Parte3Controller, responsável pelos pagamentos de compras, apresentava uma estrutura problemática no método PayOrder da classe OrderService, utilizando instruções if para diferentes métodos de pagamento. A solução adotou o princípio Open-Closed, refatorando os métodos de pagamento para estratégias independentes implementadas pelas classes PixPayment, CreditCardPayment e PayPalPayment. Foi introduzido um dicionário para mapear cada forma de pagamento à sua respectiva estratégia, proporcionando uma arquitetura mais flexível e preparada para futuras extensões.
 
-# Parte 4
+### Parte 4
 Testes Unitários e Melhorias na Estrutura: O Parte4Controller, envolvido na validação de negócios para determinar se um consumidor pode realizar uma compra, foi submetido à criação de testes unitários. Utilizando o framework Xunit, os testes foram estruturados para cobrir diversos cenários, garantindo uma ampla cobertura de código. A estratégia adotada incluiu simulações de cenários como clientes não registrados tentando comprar, clientes com compras recentes tentando comprar novamente e clientes fazendo a primeira compra excedendo o valor máximo. A utilização do Entity Framework Core em memória permitiu a simulação controlada do banco de dados para garantir testes isolados e independentes.
 Essas melhorias buscam não apenas corrigir os problemas identificados, mas também promover boas práticas de programação, modularidade e preparação para futuras extensões no código-fonte do sistema.
 
-# Melhorias Adicionais no endpoint "/Parte3/orders": 
+### Melhorias Adicionais no endpoint "/Parte3/orders": 
 Além das correções e melhorias mencionadas anteriormente, fiz algumas alterações adicionais no retorno do endpoint para proporcionar uma experiência mais consistente e informativa:
-# Incremento do ID da Order: 
+### Incremento do ID da Order: 
 O ID da ordem agora é gerado de forma incremental, melhorando a consistência e a clareza na identificação das ordens.
-# Atualização Dinâmica da Data: 
+### Atualização Dinâmica da Data: 
 A data de criação da ordem, que estava estática, agora é gerada dinamicamente, refletindo a data e hora atuais.
-# Melhoria na Representação do Cliente: 
+### Melhoria na Representação do Cliente: 
 No retorno da ordem, o cliente agora é representado de forma mais completa, incluindo o ID do cliente, e o nome. Isso fornece informações mais abrangentes sobre o cliente associado à ordem.
 Agora, o retorno do endpoint apresenta uma estrutura mais rica e coerente, contribuindo para uma experiência de API mais robusta e compreensível para os consumidores da API.
 
