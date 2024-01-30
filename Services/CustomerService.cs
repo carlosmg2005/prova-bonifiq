@@ -4,18 +4,19 @@ using ProvaPub.Repository;
 
 namespace ProvaPub.Services
 {
-    public class CustomerService
+    public class CustomerService : ListService<Customer>
     {
-        TestDbContext _ctx;
+        private readonly TestDbContext _ctx;
 
-        public CustomerService(TestDbContext ctx)
+        public CustomerService(TestDbContext ctx) : base(ctx)
         {
             _ctx = ctx;
         }
 
-        public CustomerList ListCustomers(int page)
+        public async Task<CustomerList> ListCustomers(int page, int pageSize = 10)
         {
-            return new CustomerList() { HasNext = false, TotalCount = 10, Customers = _ctx.Customers.ToList() };
+            var query = _ctx.Customers.AsQueryable();
+            return await ListEntities(query, page, pageSize).ToCustomerList();
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
@@ -42,5 +43,23 @@ namespace ProvaPub.Services
             return true;
         }
 
+        public async Task<Customer> GetCustomerById(int customerId)
+        {
+            return await _ctx.Customers.FindAsync(customerId);
+        }
+
+        /*public void UpdateCustomerOrders(int customerId, Order order)
+        {
+            var customer = _ctx.Customers.Include(c => c.Orders).FirstOrDefault(c => c.Id == customerId);
+
+            if (customer != null)
+            {
+                //Adiciona o novo pedido à lista de pedidos do cliente
+                customer.Orders.Add(order);
+
+                //Atualiza o BD
+                _ctx.SaveChanges();
+            }
+        }*/    
     }
 }

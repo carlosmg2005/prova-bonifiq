@@ -2,14 +2,15 @@
 {
 	public class RandomService
 	{
-		int seed;
+		private readonly Random _random;
 		public RandomService()
 		{
-			seed = Guid.NewGuid().GetHashCode();
+			//Inicializa o objeto Random
+			_random = new Random(Guid.NewGuid().GetHashCode());
 		}
 		public int GetRandom()
 		{
-			return new Random(seed).Next(100);
+			return _random.Next(100);
 		}
 
 	}
